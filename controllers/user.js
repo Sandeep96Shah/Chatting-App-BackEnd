@@ -3,20 +3,73 @@ const sgMail = require("@sendgrid/mail");
 const jwt = require('jsonwebtoken');
 const Speakeasy = require("speakeasy");
 //edit this before deploying
+//const API_KEY ="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";
 const API_KEY = process.env.API_KEY;
 
 sgMail.setApiKey(API_KEY);
 
+// module.exports.createUser = async (req, res) => {
+//   console.log("req.body",req.body);
+//   let isVerified = false;
+//   await User.findOne({ email: req.body.email }, async (err, user) => {
+//     if (err) {
+//       return res.status(404).json({
+//         message: "Error in fetching the user from DB!",
+//       });
+//     }
+//     let secret;
+//     if (!user) {
+//       console.log("user is not present in DB!");
+//       const secretA = () => {
+//         secret = Speakeasy.generateSecret({ length: 20 }).base32;
+//       };
+//       secretA();
+//       const account = await User.create({
+//         secret,
+//         email: req.body.email,
+//       });
+//     } else {
+//       console.log("user is present in DB!");
+//       secret = user.secret;
+//       isVerified = true;
+//     }
+//     let token = Speakeasy.totp({
+//       secret,
+//       encoding: "base32",
+//     });
+//     console.log("token", token);
+//     const message = {
+//       to: req.body.email,
+//       from: "sandeep2016shah@gmail.com",
+//       subject: "OTP",
+//       text: token,
+//       html: `<h1>Hello!</h1> <h2>${token}</h2>`,
+//     };
+//     sgMail
+//       .send(message)
+//       .then((response) => {
+//         return res.status(200).json({
+//           message: response,
+//           isVerified,
+//           success:true,
+//         });
+//       })
+//       .catch((err) => {
+//         return res.status(200).json({
+//           message: err,
+//         });
+//       });
+//   });
+// };
+
 module.exports.createUser = async (req, res) => {
-  console.log("req.body",req.body);
+  
+  try{
+    console.log("req.body",req.body);
   let isVerified = false;
-  User.findOne({ email: req.body.email }, async (err, user) => {
-    if (err) {
-      return res.status(404).json({
-        message: "Error in fetching the user from DB!",
-      });
-    }
+  const user = await User.findOne({ email: req.body.email });
     let secret;
+    console.log("checking user", user);
     if (!user) {
       const secretA = () => {
         secret = Speakeasy.generateSecret({ length: 20 }).base32;
@@ -56,8 +109,13 @@ module.exports.createUser = async (req, res) => {
           message: err,
         });
       });
-  });
+  }catch(err){
+    return res.status(400).json({
+      message: `Error ho gaya user controller me ${err}`,
+    });
+  }
 };
+
 
 module.exports.validateUser = async (req,res) => {
   console.log("req.body",req.body);
