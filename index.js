@@ -43,5 +43,5 @@ app.listen(port, (err) => {
         console.log(`error while running on port`);
         return;
     }
-    console.log(`Running on port ${port}``);
+    console.log(`Running on port ${port}`);
 })
