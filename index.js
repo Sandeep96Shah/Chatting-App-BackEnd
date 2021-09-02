@@ -17,8 +17,7 @@ const sgMail = require('@sendgrid/mail');
 // setup the chat server to be used with socket.io
 const chatServer = require('http').Server(app);
 const chatSockets = require('./config/chat_socket').chatSockets(chatServer);
-// chatServer.listen(5000);
-chatServer.listen(chatServer);
+chatServer.listen(5000);
 console.log('chat server is listening on port 5000');
 
 app.use(express.urlencoded({extended:true}));
