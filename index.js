@@ -28,8 +28,8 @@ const sgMail = require('@sendgrid/mail');
 // setup the chat server to be used with socket.io
 const chatServer = require('http').Server(app);
 const chatSockets = require('./config/chat_socket').chatSockets(chatServer);
-chatServer.listen(5000);
-console.log('chat server is listening on port 5000');
+chatServer.listen(process.env.SOCKET_PORT);
+console.log(`chat server is listening on port ${process.env.SOCKET_PORT}`);
 
 app.use(express.urlencoded({extended:true}));
 app.use(express.json());
@@ -40,8 +40,8 @@ app.use('/', require('./routes/index'));
 
 app.listen(port, (err) => {
     if(err){
-        console.log("error while running on port 8000");
+        console.log(`error while running on port`);
         return;
     }
-    console.log("Running on port 8000");
+    console.log(`Running on port ${port}``);
 })
