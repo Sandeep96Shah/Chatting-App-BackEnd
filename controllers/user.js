@@ -147,6 +147,7 @@ module.exports.validateUser = async (req,res) => {
         }else{
             return res.status(200).json({
                 message:"Verification Failed, Try Again!",
+                success:false,
             })
         }
     })
