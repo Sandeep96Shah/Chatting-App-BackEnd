@@ -10,7 +10,7 @@ app.use(cors());
 //youtube
 app.use(function(req,res,next){
     res.header("Access-Control-Allow-Origin","*");
-    res.header("Access-Control-Allow-Methods", "GET, POST, DELETE, OPTION");
+    res.header("Access-Control-Allow-Methods", "GET, POST, DELETE, OPTIONS");
     res.header(
         "Access-Control-Allow-Headers",
         "Origin, X-Requested:With, Content-Type, Accept"
@@ -28,7 +28,7 @@ const sgMail = require('@sendgrid/mail');
 // setup the chat server to be used with socket.io
 const chatServer = require('http').Server(app);
 const chatSockets = require('./config/chat_socket').chatSockets(chatServer);
-chatServer.listen(port);
+chatServer.listen(5000);
 console.log('chat server is listening on port 5000');
 
 app.use(express.urlencoded({extended:true}));
